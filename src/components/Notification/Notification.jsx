@@ -1,4 +1,4 @@
-export default function _Notification() {
+export default function Notification() {
     return (
         <span>No feedback yet</span>
     );
