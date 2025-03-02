@@ -1,0 +1,17 @@
+.list {
+  display: flex;
+  gap: 40px;
+  justify-content: center;
+}
+
+.alarm_text {
+  color: #fe019a;
+}
+
+.info_text {
+  color: #e5c185;
+}
+
+.success_text {
+  color: #008585;
+}
