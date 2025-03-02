@@ -1,7 +1,6 @@
 import css from './Feedback.module.css'
 
-export default function Feedback({ feedbackCount, states }) {
-  let positiveFeedbackRate = Math.round((states.good / feedbackCount) * 100);
+export default function Feedback({ feedbackCount, states, positiveFeedbackRate }) {
   return (
     <ul className={css.list}>
       <li><span>❣️Good: {states.good}</span></li>

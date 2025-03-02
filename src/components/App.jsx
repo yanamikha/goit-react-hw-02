@@ -42,7 +42,7 @@ function App() {
     <>
       <Description></Description>
       <Options onUpdateFeedback={updateFeedback} onResetFeedback={resetFeedback} feedbackCount={totalFeedbackCount}></Options>
-      {totalFeedbackCount > 0 ? <Feedback feedbackCount={totalFeedbackCount} states={feedback}></Feedback> : <_Notification />}
+      {totalFeedbackCount > 0 ? <Feedback feedbackCount={totalFeedbackCount} states={feedback} positiveFeedbackRate={Math.round((feedback.good / totalFeedbackCount) * 100)}></Feedback> : <_Notification />}
     </>
   )
 }
