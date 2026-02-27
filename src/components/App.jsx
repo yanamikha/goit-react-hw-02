@@ -37,7 +37,6 @@ function App() {
         const url = URL.createObjectURL(blob);
         setPdfUrl(url);
       });
-
     debugger;
     return () => {
       if (blobUrl) URL.revokeObjectURL(blobUrl);
