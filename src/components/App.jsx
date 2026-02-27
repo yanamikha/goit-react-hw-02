@@ -32,7 +32,7 @@ function App() {
   useEffect(() => {
     const fetchPdf = async () => {
       try {
-        const response = await fetch('https://www.irs.gov/pub/irs-pdf/f1040.pdf');
+        const response = await fetch('https://file-examples.com/wp-content/uploads/2017/10/file-sample_150kB.pdf');
         const blob = await response.blob();
         const url = URL.createObjectURL(blob);
         setPdfUrl(url);
@@ -52,7 +52,7 @@ function App() {
           className="h-[70vh] w-full rounded-b-lg"
         />)}
       <embed
-        src="https://www.irs.gov/pub/irs-pdf/f1040.pdf"
+        src="https://file-examples.com/wp-content/uploads/2017/10/file-sample_150kB.pdf"
         type="application/pdf"
         className="h-[70vh] w-full rounded-b-lg"
       />
