@@ -28,13 +28,12 @@ function App() {
 
   const totalFeedbackCount = feedback.good + feedback.neutral + feedback.bad;
 
-  // ✅ Скачиваем PDF и создаём blob URL
   useEffect(() => {
     let blobUrl = null;
 
     const fetchPdf = async () => {
       try {
-        const response = await fetch('/api/pdf'); // вызываем наш серверный API
+        const response = await fetch('/api/pdf');
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
 
         const blob = await response.blob();
