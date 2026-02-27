@@ -31,18 +31,12 @@ function App() {
   useEffect(() => {
     let blobUrl = null;
 
-    const fetchPdf = async () => {
-      try {
-        const response = await fetch('/api');
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-
-        const blob = await response.blob();
-        blobUrl = URL.createObjectURL(blob);
-        setPdfUrl(blobUrl);
-      } catch (err) {
-        console.error('Failed to fetch PDF', err);
-      }
-    };
+    const fetchPdf = fetch('/test.pdf')
+      .then(res => res.blob())
+      .then(blob => {
+        const url = URL.createObjectURL(blob);
+        setPdfUrl(url);
+      });
 
     fetchPdf();
     debugger;
