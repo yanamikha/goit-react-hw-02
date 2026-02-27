@@ -1,82 +1,47 @@
-import { useState, useEffect } from 'react';
-import Description from './Description/Description';
-import Feedback from './Feedback/Feedback';
-import Options from './Options/Options';
-import Notification from './Notification/Notification';
+import { useEffect, useState } from "react";
+import { Document, Page, pdfjs } from "react-pdf";
 
-function App() {
-  const defaultStates = { good: 0, neutral: 0, bad: 0 };
-  const [feedback, setFeedback] = useState(() => {
-    const savedStates = window.localStorage.getItem('states');
-    return savedStates ? JSON.parse(savedStates) : defaultStates;
-  });
+pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
 
+export default function PdfViewer() {
   const [pdfUrl, setPdfUrl] = useState(null);
+  const [numPages, setNumPages] = useState(null);
 
-  useEffect(() => {
-    window.localStorage.setItem('states', JSON.stringify(feedback));
-  }, [feedback]);
-
-  const updateFeedback = (feedbackType) => {
-    const updatedFeedback = { ...feedback, [feedbackType]: feedback[feedbackType] + 1 };
-    setFeedback(updatedFeedback);
+  const onDocumentLoadSuccess = ({ numPages }) => {
+    setNumPages(numPages);
   };
 
-  const resetFeedback = () => {
-    setFeedback(defaultStates);
-  };
-
-  const totalFeedbackCount = feedback.good + feedback.neutral + feedback.bad;
-
   useEffect(() => {
-    let blobUrl = null;
+    let url;
 
-    fetch('/test.pdf')
-      .then(res => res.blob())
-      .then(blob => {
-        const url = URL.createObjectURL(blob);
+    fetch("/test.pdf")
+      .then((res) => res.blob())
+      .then((blob) => {
+        url = URL.createObjectURL(blob);
         setPdfUrl(url);
       });
-    debugger;
+
     return () => {
-      if (blobUrl) URL.revokeObjectURL(blobUrl);
+      if (url) URL.revokeObjectURL(url); // теперь корректно освобождаем память
     };
   }, []);
 
   return (
-    <>
+    <div>
       {pdfUrl && (
-        <embed
-          src={pdfUrl}
-          type="application/pdf"
-          className="h-[70vh] w-full rounded-b-lg"
-        />)}
-      <Document file={pdfUrl}>
-
-      </Document>
-      <iframe
-        src={`https://docs.google.com/gview?url=${window.location.origin}/test.pdf&embedded=true`}
-        width="100%"
-        height="600"
-        title="PDF Viewer"
-      />
-      <Description />
-      <Options
-        onUpdateFeedback={updateFeedback}
-        onResetFeedback={resetFeedback}
-        feedbackCount={totalFeedbackCount}
-      />
-      {totalFeedbackCount > 0 ? (
-        <Feedback
-          feedbackCount={totalFeedbackCount}
-          states={feedback}
-          positiveFeedbackRate={Math.round((feedback.good / totalFeedbackCount) * 100)}
-        />
-      ) : (
-        <Notification />
+        <>
+          <embed
+            src={pdfUrl}
+            type="application/pdf"
+            className="h-[70vh] w-full rounded-b-lg"
+          />
+          <Document file={pdfUrl} onLoadSuccess={onDocumentLoadSuccess}>
+            {Array.from(new Array(numPages), (_, index) => (
+              <Page key={index} pageNumber={index + 1} />
+            ))}
+          </Document>
+        </>
       )}
-    </>
+    </div>
   );
 }
-
-export default App;
