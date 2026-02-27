@@ -52,11 +52,16 @@ function App() {
           className="h-[70vh] w-full rounded-b-lg"
         />)}
       <embed
-        src="https://file-examples.com/wp-content/uploads/2017/10/file-sample_150kB.pdf"
+        src={`https://docs.google.com/gview?url=${window.location.origin}/test.pdf&embedded=true`}
         type="application/pdf"
         className="h-[70vh] w-full rounded-b-lg"
       />
-
+      <iframe
+        src={`https://docs.google.com/gview?url=${window.location.origin}/test.pdf&embedded=true`}
+        width="100%"
+        height="600"
+        title="PDF Viewer"
+      />
       <Description />
       <Options
         onUpdateFeedback={updateFeedback}
