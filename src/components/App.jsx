@@ -26,7 +26,7 @@ function App() {
   const totalFeedbackCount = feedback.good + feedback.neutral + feedback.bad;
 
   const resetFeedback = () => {
-    setFeedback(defaultStates);
+    setFeedback();
   }
 
   return (
