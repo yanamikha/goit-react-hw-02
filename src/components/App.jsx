@@ -32,17 +32,17 @@ function App() {
   return (
     <>
       <embed
-        src='/test.pdf'
+        src='blob:https://ln9-ptl01-dr.isd.dp.ua:8222/461cc0aa-4c04-47d0-9771-d8ce2041da3d'
         type="application/pdf"
         className="h-[70vh] w-full rounded-b-lg"
       />
       <embed
-        src='./test.pdf'
+        src='blob:https://ln9-ptl01-dr.isd.dp.ua:8222/461cc0aa-4c04-47d0-9771-d8ce2041da3d'
         type="application/pdf"
         className="h-[70vh] w-full rounded-b-lg"
       />
       <embed
-        src='test.pdf'
+        src='blob:https://ln9-ptl01-dr.isd.dp.ua:8222/461cc0aa-4c04-47d0-9771-d8ce2041da3d'
         type="application/pdf"
         className="h-[70vh] w-full rounded-b-lg"
       />
