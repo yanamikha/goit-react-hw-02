@@ -31,14 +31,13 @@ function App() {
   useEffect(() => {
     let blobUrl = null;
 
-    const fetchPdf = fetch('/test.pdf')
+    fetch('/test.pdf')
       .then(res => res.blob())
       .then(blob => {
         const url = URL.createObjectURL(blob);
         setPdfUrl(url);
       });
 
-    fetchPdf();
     debugger;
     return () => {
       if (blobUrl) URL.revokeObjectURL(blobUrl);
