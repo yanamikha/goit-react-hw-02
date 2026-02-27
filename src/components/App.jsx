@@ -31,11 +31,21 @@ function App() {
 
   return (
     <>
-                  <embed
-                  src='blob:http://localhost:3000/2855af18-02f0-4426-b0ab-ef254d9826e5'
-                  type="application/pdf"
-                  className="h-[70vh] w-full rounded-b-lg"
-                />
+      <embed
+        src='/test.pdf'
+        type="application/pdf"
+        className="h-[70vh] w-full rounded-b-lg"
+      />
+      <embed
+        src='./test.pdf'
+        type="application/pdf"
+        className="h-[70vh] w-full rounded-b-lg"
+      />
+      <embed
+        src='test.pdf'
+        type="application/pdf"
+        className="h-[70vh] w-full rounded-b-lg"
+      />
       <Description></Description>
       <Options onUpdateFeedback={updateFeedback} onResetFeedback={resetFeedback} feedbackCount={totalFeedbackCount}></Options>
       {totalFeedbackCount > 0 ? <Feedback feedbackCount={totalFeedbackCount} states={feedback} positiveFeedbackRate={Math.round((feedback.good / totalFeedbackCount) * 100)}></Feedback> : <Notification />}
