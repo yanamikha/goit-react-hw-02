@@ -30,17 +30,26 @@ function App() {
 
   // ✅ Скачиваем PDF и создаём blob URL
   useEffect(() => {
+    let blobUrl = null;
+
     const fetchPdf = async () => {
       try {
-        const response = await fetch('https://file-examples.com/wp-content/uploads/2017/10/file-sample_150kB.pdf');
+        const response = await fetch('/api/pdf'); // вызываем наш серверный API
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+
         const blob = await response.blob();
-        const url = URL.createObjectURL(blob);
-        setPdfUrl(url);
+        blobUrl = URL.createObjectURL(blob);
+        setPdfUrl(blobUrl);
       } catch (err) {
         console.error('Failed to fetch PDF', err);
       }
     };
+
     fetchPdf();
+
+    return () => {
+      if (blobUrl) URL.revokeObjectURL(blobUrl);
+    };
   }, []);
 
   return (
