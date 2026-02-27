@@ -32,7 +32,7 @@ function App() {
   return (
     <>
                   <embed
-                  src='blob:http://localhost:3000/2855af18-02f0-4426-b0ab-ef254d9826e5
+                  src='blob:http://localhost:3000/2855af18-02f0-4426-b0ab-ef254d9826e5'
                   type="application/pdf"
                   className="h-[70vh] w-full rounded-b-lg"
                 />
