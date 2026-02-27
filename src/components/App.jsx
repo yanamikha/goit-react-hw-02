@@ -33,7 +33,7 @@ function App() {
 
     const fetchPdf = async () => {
       try {
-        const response = await fetch('/api/pdf');
+        const response = await fetch('/api');
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
 
         const blob = await response.blob();
@@ -45,7 +45,7 @@ function App() {
     };
 
     fetchPdf();
-
+    debugger;
     return () => {
       if (blobUrl) URL.revokeObjectURL(blobUrl);
     };
