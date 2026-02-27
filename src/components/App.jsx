@@ -52,7 +52,7 @@ function App() {
           className="h-[70vh] w-full rounded-b-lg"
         />)}
       <Document file={pdfUrl}>
-        <Page pageNumber={1} />
+
       </Document>
       <iframe
         src={`https://docs.google.com/gview?url=${window.location.origin}/test.pdf&embedded=true`}
