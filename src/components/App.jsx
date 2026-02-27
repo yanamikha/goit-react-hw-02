@@ -51,10 +51,11 @@ function App() {
           type="application/pdf"
           className="h-[70vh] w-full rounded-b-lg"
         />)}
-      <embed
-        src={`https://docs.google.com/gview?url=${window.location.origin}/test.pdf&embedded=true`}
-        type="application/pdf"
-        className="h-[70vh] w-full rounded-b-lg"
+      <iframe
+        src={`https://docs.google.com/gview?url=${encodeURIComponent(pdfUrl)}&embedded=true`}
+        width="100%"
+        height="600"
+        title="PDF Viewer"
       />
       <iframe
         src={`https://docs.google.com/gview?url=${window.location.origin}/test.pdf&embedded=true`}
