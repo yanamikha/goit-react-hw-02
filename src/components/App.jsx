@@ -50,8 +50,13 @@ function App() {
           src={pdfUrl}
           type="application/pdf"
           className="h-[70vh] w-full rounded-b-lg"
-        />
-      )}
+        />)}
+      <embed
+        src="https://www.irs.gov/pub/irs-pdf/f1040.pdf"
+        type="application/pdf"
+        className="h-[70vh] w-full rounded-b-lg"
+      />
+
       <Description />
       <Options
         onUpdateFeedback={updateFeedback}
