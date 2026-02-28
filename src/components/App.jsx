@@ -1,47 +1,49 @@
 import { useEffect, useState } from "react";
-import { Document, Page, pdfjs } from "react-pdf";
-
-pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
 
 export default function PdfViewer() {
   const [pdfUrl, setPdfUrl] = useState(null);
-  const [numPages, setNumPages] = useState(null);
-
-  const onDocumentLoadSuccess = ({ numPages }) => {
-    setNumPages(numPages);
-  };
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
-    let url;
+    let blobUrl;
 
-    fetch("/test.pdf")
-      .then((res) => res.blob())
-      .then((blob) => {
-        url = URL.createObjectURL(blob);
-        setPdfUrl(url);
-      });
+    const fetchPdf = async () => {
+      try {
+        const response = await fetch("https://localhost:7142/pdf", {
+          credentials: "include"
+        });
+
+        if (!response.ok) throw new Error("Failed to fetch PDF");
+
+        const blob = await response.blob();
+        blobUrl = URL.createObjectURL(blob);
+        setPdfUrl(blobUrl);
+      } catch (err) {
+        console.error(err);
+        setError(true);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPdf();
 
     return () => {
-      if (url) URL.revokeObjectURL(url); // теперь корректно освобождаем память
+      if (blobUrl) URL.revokeObjectURL(blobUrl);
     };
   }, []);
 
+  if (loading) return <div>Loading PDF...</div>;
+  if (error) return <div style={{ color: "red" }}>Failed to load PDF</div>;
+
   return (
-    <div>
-      {pdfUrl && (
-        <>
-          <embed
-            src={pdfUrl}
-            type="application/pdf"
-            className="h-[70vh] w-full rounded-b-lg"
-          />
-          <Document file={pdfUrl} onLoadSuccess={onDocumentLoadSuccess}>
-            {Array.from(new Array(numPages), (_, index) => (
-              <Page key={index} pageNumber={index + 1} />
-            ))}
-          </Document>
-        </>
-      )}
-    </div>
+    <object
+      data={pdfUrl}
+      type="application/pdf"
+      width="100%"
+      height="70vh"
+      style={{ border: "none" }}
+    />
   );
 }
