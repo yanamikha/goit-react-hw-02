@@ -8,13 +8,10 @@ export default function PdfViewer() {
   useEffect(() => {
     let blobUrl;
 
-    const fetchPdf = async () => {
+    const loadPdf = async () => {
       try {
-        const response = await fetch("https://localhost:7142/pdf", {
-          credentials: "include"
-        });
-
-        if (!response.ok) throw new Error("Failed to fetch PDF");
+        const response = await fetch("/test.pdf");
+        if (!response.ok) throw new Error("Failed to load PDF");
 
         const blob = await response.blob();
         blobUrl = URL.createObjectURL(blob);
@@ -27,8 +24,9 @@ export default function PdfViewer() {
       }
     };
 
-    fetchPdf();
+    loadPdf();
 
+    // Очистка blob после размонтирования
     return () => {
       if (blobUrl) URL.revokeObjectURL(blobUrl);
     };
@@ -44,6 +42,13 @@ export default function PdfViewer() {
       width="100%"
       height="70vh"
       style={{ border: "none" }}
-    />
+    >
+      <p>
+        PDF preview not available.{" "}
+        <a href={pdfUrl} target="_blank" rel="noopener noreferrer">
+          Open PDF
+        </a>
+      </p>
+    </object>
   );
 }
