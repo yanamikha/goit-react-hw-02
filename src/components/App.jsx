@@ -1,54 +1,42 @@
 import { useEffect, useState } from "react";
 
-export default function PdfViewer() {
-  const [pdfUrl, setPdfUrl] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
+export default function PdfViewer({ filePath = "/test.pdf" }) {
+  const [isAndroid, setIsAndroid] = useState(false);
 
   useEffect(() => {
-    let blobUrl;
-
-    const loadPdf = async () => {
-      try {
-        const response = await fetch("/test.pdf");
-        if (!response.ok) throw new Error("Failed to load PDF");
-
-        const blob = await response.blob();
-        blobUrl = URL.createObjectURL(blob);
-        setPdfUrl(blobUrl);
-      } catch (err) {
-        console.error(err);
-        setError(true);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadPdf();
-
-    // Очистка blob после размонтирования
-    return () => {
-      if (blobUrl) URL.revokeObjectURL(blobUrl);
-    };
+    // Простая проверка userAgent на Android
+    const ua = navigator.userAgent || navigator.vendor || window.opera;
+    setIsAndroid(/android/i.test(ua));
   }, []);
 
-  if (loading) return <div>Loading PDF...</div>;
-  if (error) return <div style={{ color: "red" }}>Failed to load PDF</div>;
+  const pdfUrl = `${window.location.origin}${filePath}`;
 
   return (
-    <object
-      data={pdfUrl}
-      type="application/pdf"
-      width="100%"
-      height="70vh"
-      style={{ border: "none" }}
-    >
-      <p>
-        PDF preview not available.{" "}
-        <a href={pdfUrl} target="_blank" rel="noopener noreferrer">
-          Open PDF
-        </a>
-      </p>
-    </object>
+    <div style={{ height: "70vh", width: "100%" }}>
+      {isAndroid ? (
+        <iframe
+          src={`https://docs.google.com/gview?url=${pdfUrl}&embedded=true`}
+          width="100%"
+          height="100%"
+          style={{ border: "none" }}
+          title="PDF Viewer"
+        />
+      ) : (
+        <object
+          data={pdfUrl}
+          type="application/pdf"
+          width="100%"
+          height="100%"
+          style={{ border: "none" }}
+        >
+          <p>
+            PDF preview not available.{" "}
+            <a href={pdfUrl} target="_blank" rel="noopener noreferrer">
+              Open PDF
+            </a>
+          </p>
+        </object>
+      )}
+    </div>
   );
 }
